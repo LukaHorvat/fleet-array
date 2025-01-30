@@ -20,7 +20,7 @@ latest version.
 module Fleet.Array (Array, fromList, toList, (!), index, set, copy, swap, aseq) where
 
 import GHC.Exts hiding (fromList, toList)
-import Data.Tuple (Solo (MkSolo))
+import Data.Tuple (Solo (Solo))
 
 import Data.Kind (Type)
 
@@ -89,9 +89,9 @@ index (I# i) (DA v) = helper v i where
   helper v i = runRW# $ \s ->
     case readMutVar# v s of
       (# s , Current arr #) ->
-        case readArray# arr i s of (# _ , x #) -> MkSolo x
+        case readArray# arr i s of (# _ , x #) -> Solo x
       (# _ , Diff (Set j x) xs #)
-        | isTrue# (i ==# j) -> MkSolo x
+        | isTrue# (i ==# j) -> Solo x
         | otherwise -> helper xs i
       (# _ , Diff (Swap j1 j2) xs #)
         | isTrue# (i ==# j1) -> helper xs j2

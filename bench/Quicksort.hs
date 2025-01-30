@@ -23,7 +23,7 @@ quicksort :: Ord a => Int -> Int -> Array a -> Array a
 quicksort !l !r !xs
   | r - l <= 1 = xs
   | otherwise =
-    let !(MkSolo x) = index (r - 1) xs in
+    let !(Solo x) = index (r - 1) xs in
     case partition l (r - 1) xs x of
       (xs, m) -> quicksort l m (quicksort (m + 1) r (swap (r - 1) m xs))
 
